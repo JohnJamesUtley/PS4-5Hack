@@ -1,4 +1,3 @@
-import sys
 import subprocess
 import argparse
 import os
@@ -58,7 +57,7 @@ STAGE_1_ENTRY_POINT: int = 0x1FFE844
 BKMO0_DAT_ADDRESS: int = 0x0024EE04
 
 # Offset into bkmo0.dat
-STAGE_2_ENTRY_POINT_OFFSET: int = 0x9d0
+STAGE_2_ENTRY_POINT_OFFSET: int = 0x9D0
 
 # jal 0x0091f710 (address of stage 2 payload in heap)
 # We want to jump to *BKMO0_DAT_ADDRESS + STAGE_2_ENTRY_POINT_OFFSET
@@ -78,6 +77,7 @@ STAGE_1_PAYLOAD: bytes = b"".join(
 )
 FILLER_BYTE: bytes = b"\t"
 
+
 def crc(data: bytes) -> int:
     checksum: int = 0xFFFF
     for b in data:
@@ -86,6 +86,7 @@ def crc(data: bytes) -> int:
         checksum &= 0xFFFFFFFF
         checksum ^= CRC_TABLE[index]
     return (~checksum) & 0xFFFFFFFF
+
 
 def generate_payload(shellcode: bytes) -> bytes:
     _, remainder = divmod(RA_OFFSET, WORD_SIZE)
